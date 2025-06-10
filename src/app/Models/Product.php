@@ -16,8 +16,28 @@ class Product extends Model
         'description',
     ];
 
-    public function productSeason()
+    public function seasons()
     {
-        return $this->hasMany(ProductSeason::class);
+        return $this->belongsToMany(Season::class, 'product_season');
+    }
+
+    public function scopeSearchByName($query, $keyword)
+    {
+        if($keyword) {
+            return $query->where('name', 'LIKE', "%$keyword%");
+        }
+
+        return $query;
+    }
+
+    public function scopeSearchByPrice($query, $order)
+    {
+        if ($order === 'desc') {
+            return $query->orderBy('price', 'desc');
+        } elseif ($order === 'asc') {
+            return $query->orderBy('price', 'asc');
+        }
+
+        return $query;
     }
 }

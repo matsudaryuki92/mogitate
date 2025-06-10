@@ -13,8 +13,8 @@ class Season extends Model
         'name',
     ];
 
-    public function productSeason()
+    public function products()
     {
-        return $this->hasMany(ProductSeason::class);
+        return $this->belongsToMany(Product::class, 'product_season');
     }
 }
